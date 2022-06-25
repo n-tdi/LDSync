@@ -4,15 +4,21 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import world.ntdi.ldsync.Commands.SubCommands.HelpSUB;
 import world.ntdi.ldsync.Commands.SubCommands.ReloadSUB;
 import world.ntdi.ldsync.Commands.SubCommands.SyncSUB;
 import world.ntdi.ldsync.LDSync;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
-public class CommandManager implements CommandExecutor {
-    public final ArrayList<SubCommand> subCommands = new ArrayList<>(Arrays.asList(new ReloadSUB(), new SyncSUB()));
+public class CommandManager implements CommandExecutor, TabCompleter {
+    private final ArrayList<SubCommand> subCommands = new ArrayList<>(Arrays.asList(new ReloadSUB(), new SyncSUB(), new HelpSUB()));
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -41,4 +47,17 @@ public class CommandManager implements CommandExecutor {
     }
 
     public ArrayList<SubCommand> getSubcommands(){ return subCommands; }
+
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        if(command.getName().toLowerCase(Locale.ROOT).startsWith("lds") && args.length <= 1){
+            List<String> list = new ArrayList<>();
+            for (SubCommand sub : getSubcommands()) {
+                list.add(sub.getName());
+            }
+            return list;
+        }
+        return null;
+    }
 }

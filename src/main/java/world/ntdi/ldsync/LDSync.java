@@ -3,12 +3,15 @@ package world.ntdi.ldsync;
 import net.dv8tion.jda.api.JDA;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import world.ntdi.ldsync.Bot.BotThread;
 import world.ntdi.ldsync.Commands.CommandManager;
-import world.ntdi.ldsync.Commands.TabCompletion;
+
+import javax.annotation.Nullable;
 
 public final class LDSync extends JavaPlugin {
     public static FileConfiguration config;
@@ -50,11 +53,17 @@ public final class LDSync extends JavaPlugin {
         thread.start();
 
         try {
-            getCommand("ldsync").setExecutor(new CommandManager());
-            getCommand("ldsync").setTabCompleter(new TabCompletion());
+            registerCommand("ldsync", new CommandManager(), new CommandManager());
         } catch (Exception e) {
             getLogger().severe("Something has gone horribly wrong registering ldsync commands");
             e.printStackTrace();
+        }
+    }
+
+    public void registerCommand(String name, CommandExecutor executor, @Nullable TabCompleter tabCompleter) {
+        getCommand(name).setExecutor(executor);
+        if(tabCompleter != null) {
+            getCommand(name).setTabCompleter(tabCompleter);
         }
     }
 
