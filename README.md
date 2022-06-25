@@ -26,6 +26,9 @@ LDSync is very customizable by even changing the name or "logo" in chat.
 
 `logo` Obviously, the logo that appears in chat. Change it to whatever you want! 
 
+### Permissions
+The base command is `/ldsync` which requires the premission node `ldsync.use`
+
 ### Support
 If you still need help feel free to create an issue on this github page.
 
