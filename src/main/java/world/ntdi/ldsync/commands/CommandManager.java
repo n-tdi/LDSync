@@ -7,9 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import world.ntdi.ldsync.commands.subCommands.HelpSubcommand;
-import world.ntdi.ldsync.commands.subCommands.ReloadSubcommand;
-import world.ntdi.ldsync.commands.subCommands.SyncSubcommand;
+import world.ntdi.ldsync.commands.subcommands.HelpSubcommand;
+import world.ntdi.ldsync.commands.subcommands.ReloadSubcommand;
+import world.ntdi.ldsync.commands.subcommands.SyncSubcommand;
 import world.ntdi.ldsync.LDSync;
 
 import java.util.ArrayList;

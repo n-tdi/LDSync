@@ -1,4 +1,4 @@
-package world.ntdi.ldsync.commands.subCommands;
+package world.ntdi.ldsync.commands.subcommands;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
