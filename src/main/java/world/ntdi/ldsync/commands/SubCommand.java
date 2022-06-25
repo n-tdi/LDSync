@@ -1,4 +1,4 @@
-package world.ntdi.ldsync.Commands;
+package world.ntdi.ldsync.commands;
 
 import org.bukkit.command.CommandSender;
 

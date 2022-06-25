@@ -1,13 +1,13 @@
-package world.ntdi.ldsync.Commands.SubCommands;
+package world.ntdi.ldsync.commands.subCommands;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import world.ntdi.ldsync.Commands.SubCommand;
+import world.ntdi.ldsync.commands.SubCommand;
 
-public class HelpSUB extends SubCommand {
+public class HelpSubcommand extends SubCommand {
 
     @Override
     public String getName() {

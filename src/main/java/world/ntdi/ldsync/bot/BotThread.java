@@ -1,4 +1,4 @@
-package world.ntdi.ldsync.Bot;
+package world.ntdi.ldsync.bot;
 
 import javax.security.auth.login.LoginException;
 

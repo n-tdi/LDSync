@@ -1,4 +1,4 @@
-package world.ntdi.ldsync.Commands;
+package world.ntdi.ldsync.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -7,9 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import world.ntdi.ldsync.Commands.SubCommands.HelpSUB;
-import world.ntdi.ldsync.Commands.SubCommands.ReloadSUB;
-import world.ntdi.ldsync.Commands.SubCommands.SyncSUB;
+import world.ntdi.ldsync.commands.subCommands.HelpSubcommand;
+import world.ntdi.ldsync.commands.subCommands.ReloadSubcommand;
+import world.ntdi.ldsync.commands.subCommands.SyncSubcommand;
 import world.ntdi.ldsync.LDSync;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class CommandManager implements CommandExecutor, TabCompleter {
-    private final ArrayList<SubCommand> subCommands = new ArrayList<>(Arrays.asList(new ReloadSUB(), new SyncSUB(), new HelpSUB()));
+    private final ArrayList<SubCommand> SUBCOMMANDS = new ArrayList<>(Arrays.asList(new ReloadSubcommand(), new SyncSubcommand(), new HelpSubcommand()));
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -34,7 +34,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         }else {
             sender.sendMessage(ChatColor.DARK_GRAY + "----------------" + ChatColor.translateAlternateColorCodes('&', LDSync.getLogo()) + ChatColor.DARK_GRAY +"----------------"); sender.sendMessage();
             for (int i = 0; i < getSubcommands().size(); i++){
-                SubCommand sub = subCommands.get(i);
+                SubCommand sub = getSubcommands().get(i);
                 String synt = ChatColor.DARK_PURPLE + sub.getSyntax();
                 String recolored = synt.replaceFirst("/", ChatColor.DARK_GRAY + "/" + ChatColor.BLUE);
                 String desc = ChatColor.LIGHT_PURPLE + sub.getDescription();
@@ -46,7 +46,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         } return true;
     }
 
-    public ArrayList<SubCommand> getSubcommands(){ return subCommands; }
+    public ArrayList<SubCommand> getSubcommands(){ return SUBCOMMANDS; }
 
     @Nullable
     @Override

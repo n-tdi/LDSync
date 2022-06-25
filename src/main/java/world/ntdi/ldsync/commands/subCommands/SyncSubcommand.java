@@ -1,14 +1,13 @@
-package world.ntdi.ldsync.Commands.SubCommands;
+package world.ntdi.ldsync.commands.subCommands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import world.ntdi.ldsync.Commands.SubCommand;
+import world.ntdi.ldsync.commands.SubCommand;
 import world.ntdi.ldsync.LDSync;
-import world.ntdi.ldsync.Utils.LDUtils;
-import world.ntdi.ldsync.Utils.StringUtils;
+import world.ntdi.ldsync.utils.LDUtils;
+import world.ntdi.ldsync.utils.StringUtils;
 
-public class SyncSUB extends SubCommand {
+public class SyncSubcommand extends SubCommand {
 
     @Override
     public String getName() {

@@ -1,4 +1,4 @@
-package world.ntdi.ldsync.Utils;
+package world.ntdi.ldsync.utils;
 
 import org.bukkit.ChatColor;
 import world.ntdi.ldsync.LDSync;

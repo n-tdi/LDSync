@@ -8,8 +8,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import world.ntdi.ldsync.Bot.BotThread;
-import world.ntdi.ldsync.Commands.CommandManager;
+import world.ntdi.ldsync.bot.BotThread;
+import world.ntdi.ldsync.commands.CommandManager;
 
 import javax.annotation.Nullable;
 

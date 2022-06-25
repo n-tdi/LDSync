@@ -1,12 +1,11 @@
-package world.ntdi.ldsync.Commands.SubCommands;
+package world.ntdi.ldsync.commands.subCommands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import world.ntdi.ldsync.Commands.SubCommand;
+import world.ntdi.ldsync.commands.SubCommand;
 import world.ntdi.ldsync.LDSync;
-import world.ntdi.ldsync.Utils.StringUtils;
+import world.ntdi.ldsync.utils.StringUtils;
 
-public class ReloadSUB extends SubCommand {
+public class ReloadSubcommand extends SubCommand {
 
     @Override
     public String getName() {
