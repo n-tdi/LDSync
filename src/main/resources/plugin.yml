@@ -1,0 +1,17 @@
+name: LDSync
+version: '${project.version}'
+main: world.ntdi.ldsync.LDSync
+api-version: 1.17
+prefix: LDSync
+load: STARTUP
+authors: [ Ntdi ]
+description: Sync Vault groups to discord
+website: ntdi.world
+depend: [ Vault ]
+commands:
+  ldsync:
+    description: Sync Vault groups to discord
+    usage: /ldsync
+    permission: ldsync.use
+    aliases:
+      - lds

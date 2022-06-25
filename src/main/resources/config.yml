@@ -1,0 +1,4 @@
+bot-token: "token here"
+discord-server-id: "989979832739835914"
+remove-higher-roles-on-sync: true
+logo: "&cLD&bSYNC &7"
