@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -14,6 +15,7 @@ import world.ntdi.ldsync.LDSync;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class LDUtils {
     public static List<Role> getRoles() {
@@ -124,19 +126,23 @@ public class LDUtils {
         if (op.isOnline()) {
             Player p = op.getPlayer();
             if (!checks(p, member, LDSync.permissions.getPrimaryGroup(p))) {
-                message.reply("Unable to sync ranks, *Checks Failed!*").queue();
+
+                Message response = message.getChannel().sendMessage("Unable to sync ranks, *Checks Failed!*").complete();
+                response.delete().queueAfter(5, TimeUnit.SECONDS);
                 return;
             }
 
             Role role = (findRoleFromName(LDSync.permissions.getPrimaryGroup(p)) != null) ? findRoleFromName(LDSync.permissions.getPrimaryGroup(p)) : createRoleFromName(LDSync.permissions.getPrimaryGroup(p));
             if(role == null) {
-                message.reply("Unable to sync ranks, *Failed to find role!*").queue();
+                Message response = message.getChannel().sendMessage("Unable to sync ranks, *Failed to find role!*").complete();
+                response.delete().queueAfter(5, TimeUnit.SECONDS);
                 return;
             }
 
             if (LDSync.getRemoveHigherRolesOnSync()) removeRoles(g, member, rolesThatHas(member, findHigherRoles(role)));
             g.addRoleToMember(member, role).queue();
-            message.reply("Successfully synced!").queue();
+            Message response = message.getChannel().sendMessage("Successfully synced!").complete();
+            response.delete().queueAfter(5, TimeUnit.SECONDS);
         }
     }
 

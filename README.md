@@ -35,6 +35,8 @@ LDSync is very customizable by even changing the name or "logo" in chat.
 ### Permissions
 The base command is `/ldsync` which requires the premission node `ldsync.use`
 
+For regular players to sync themselves the need the permission `ldysnc.player`, read below the command they use.
+
 ### Commands
 After changing the config, reload the plugin and the bot with `/ldsync reload`
 
@@ -43,6 +45,8 @@ Syncing players is done with `/ldsync sync <minecraft-player> <discord-username>
 **Example:** `/ldsync sync Ntdi Ntdi#0002`
 
 *Discord names are CaSe-SeNsItIvE*
+
+Players by default can sync themselves with `/sync` This will give them a command to copy and run in your discord, e.g. `$sync 1234` and then they will sync by themselves.
 
 ### Support
 If you still need help feel free to create an issue on this github page.
