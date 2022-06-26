@@ -13,7 +13,7 @@
 
     <description>Sync Vault groups to discord</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <url>ntdi.world</url>
@@ -33,12 +33,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.3.0</version>
                 <configuration>
                     <relocations>
                         <relocation>
                             <pattern>com.jeff_media.updatechecker</pattern>
-                            <shadedPattern>world.ntdi.updatechecker</shadedPattern>
+                            <shadedPattern>world.ntdi.ldsync.updatechecker</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
