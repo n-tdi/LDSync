@@ -15,3 +15,7 @@ commands:
     permission: ldsync.use
     aliases:
       - lds
+  sync:
+    description: Sync with confirmation in discord
+    usage: /sync
+    permission: ldsync.player

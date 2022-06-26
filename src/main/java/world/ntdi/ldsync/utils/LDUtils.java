@@ -2,14 +2,18 @@ package world.ntdi.ldsync.utils;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Role;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import world.ntdi.ldsync.LDSync;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class LDUtils {
     public static List<Role> getRoles() {
@@ -29,6 +33,18 @@ public class LDUtils {
 
     public static boolean alreadyHasUpdatedRole(String name, String rank) {
         Member member = getMember(name);
+        List<Role> hasRoles = member.getRoles();
+        if (hasRoles.isEmpty()) {
+            return false;
+        }
+        for(Role hr : hasRoles) {
+            if(hr.getName().equals(rank)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean alreadyHasUpdatedRole(Member member, String rank) {
         List<Role> hasRoles = member.getRoles();
         if (hasRoles.isEmpty()) {
             return false;
@@ -90,27 +106,66 @@ public class LDUtils {
     }
 
     public static void Sync(CommandSender sender, Player p, String name, String rankName) {
-        if(!hasRank(p)) {
-            sender.sendMessage(ChatColor.RED + "You do not have a rank!");
-            return;
-        }
-        if(alreadyHasUpdatedRole(name, rankName)) {
-            sender.sendMessage(ChatColor.RED + "Player already has synced role!");
-            return;
-        }
-        Role role = (findRoleFromName(rankName) != null) ? findRoleFromName(rankName) : createRoleFromName(rankName);
-        if(role == null) {
-            sender.sendMessage(ChatColor.RED + "Failed to find role!");
+        if (!checks(p, name, rankName)) {
+            sender.sendMessage(ChatColor.RED + "Invalid name or rank name.");
             return;
         }
         Member member = getMember(name);
-        if(member == null) {
-            sender.sendMessage(ChatColor.RED + "Failed to find member!");
-            return;
-        }
+        Role r = (findRoleFromName(rankName) != null) ? findRoleFromName(rankName) : createRoleFromName(rankName);
+
         Guild g = LDSync.jda.getGuildById(LDSync.getDiscordServerId());
-        if (LDSync.getRemoveHigherRolesOnSync()) removeRoles(g, member, rolesThatHas(member, findHigherRoles(role)));
-        g.addRoleToMember(member, role).queue();
+        if (LDSync.getRemoveHigherRolesOnSync()) removeRoles(g, member, rolesThatHas(member, findHigherRoles(r)));
+        g.addRoleToMember(member, r).queue();
         sender.sendMessage(ChatColor.GREEN + "Successfully synced!");
+    }
+
+    public static void syncFromDiscord(Message message, Member member, UUID uuid, Guild g) {
+        OfflinePlayer op = Bukkit.getOfflinePlayer(uuid);
+        if (op.isOnline()) {
+            Player p = op.getPlayer();
+            if (!checks(p, member, LDSync.permissions.getPrimaryGroup(p))) {
+                message.reply("Unable to sync ranks, *Checks Failed!*").queue();
+                return;
+            }
+
+            Role role = (findRoleFromName(LDSync.permissions.getPrimaryGroup(p)) != null) ? findRoleFromName(LDSync.permissions.getPrimaryGroup(p)) : createRoleFromName(LDSync.permissions.getPrimaryGroup(p));
+            if(role == null) {
+                message.reply("Unable to sync ranks, *Failed to find role!*").queue();
+                return;
+            }
+
+            if (LDSync.getRemoveHigherRolesOnSync()) removeRoles(g, member, rolesThatHas(member, findHigherRoles(role)));
+            g.addRoleToMember(member, role).queue();
+            message.reply("Successfully synced!").queue();
+        }
+    }
+
+    public static boolean checks(Player p, String name, String rankName) {
+        if(alreadyHasUpdatedRole(name, rankName)) {
+            return false;
+        }
+        Role role = (findRoleFromName(rankName) != null) ? findRoleFromName(rankName) : createRoleFromName(rankName);
+        if(role == null) {
+            return false;
+        }
+        if(!hasRank(p)) {
+            return false;
+        }
+
+        return true;
+    }
+    private static boolean checks(Player p, Member member, String rankName) {
+        if(alreadyHasUpdatedRole(member, rankName)) {
+            return false;
+        }
+        Role role = (findRoleFromName(rankName) != null) ? findRoleFromName(rankName) : createRoleFromName(rankName);
+        if(role == null) {
+            return false;
+        }
+        if(!hasRank(p)) {
+            return false;
+        }
+
+        return true;
     }
 }

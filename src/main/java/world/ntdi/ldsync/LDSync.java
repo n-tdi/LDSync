@@ -11,9 +11,13 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import world.ntdi.ldsync.bot.BotThread;
 import world.ntdi.ldsync.commands.CommandManager;
+import world.ntdi.ldsync.commands.basecommands.SyncCommandExecutor;
 import world.ntdi.ldsync.listeners.ChatListener;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public final class LDSync extends JavaPlugin {
     public static FileConfiguration config;
@@ -23,6 +27,8 @@ public final class LDSync extends JavaPlugin {
     public static Chat chat;
     public static JDA jda;
 
+    public static Map<String, UUID> syncingList = new HashMap<>();
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -30,6 +36,7 @@ public final class LDSync extends JavaPlugin {
         config = getConfig();
         config.addDefault("bot-token", "token-here");
         config.addDefault("discord-server-id", "discord-server-id-here");
+        config.addDefault("bot-prefix", "$");
         config.addDefault("remove-higher-roles-on-sync", true);
         config.addDefault("custom-chat-format", true);
         config.addDefault("custom-chat-format-string", "%rank% %player_name%: &f%msg%");
@@ -58,6 +65,7 @@ public final class LDSync extends JavaPlugin {
 
         try {
             registerCommand("ldsync", new CommandManager(), new CommandManager());
+            registerCommand("sync", new SyncCommandExecutor(), null);
         } catch (Exception e) {
             getLogger().severe("Something has gone horribly wrong registering ldsync commands");
             e.printStackTrace();
@@ -101,6 +109,10 @@ public final class LDSync extends JavaPlugin {
         return ldSync.config.getString("custom-chat-format-string");
     }
 
+    public static String getBotPrefix() {
+        return ldSync.config.getString("bot-prefix");
+    }
+
     public void restartThread() {
         botThread.interrupt();
         botThread = new BotThread();
@@ -111,6 +123,14 @@ public final class LDSync extends JavaPlugin {
         reloadConfig();
         config = ldSync.getConfig();
         restartThread();
+    }
+
+    public static boolean isValidId(String id) {
+        return syncingList.containsKey(id);
+    }
+
+    public static void removeFromList(String id) {
+        syncingList.remove(id);
     }
 
     public static LDSync getInstance() {

@@ -1,5 +1,6 @@
 bot-token: "token here"
 discord-server-id: "989979832739835914"
+bot-prefix: "$"
 remove-higher-roles-on-sync: true
 custom-chat-format: true
 custom-chat-format-string: "%rank% %player_name%: &f%msg%"
