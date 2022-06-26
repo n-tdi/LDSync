@@ -17,9 +17,10 @@ public class LDUtils {
         return g.getRoles();
     }
 
-    public static List<Member> getMember(String name) {
+    public static Member getMember(String name) {
         Guild g = LDSync.jda.getGuildById(LDSync.getDiscordServerId());
-        return g.getMembersByName(name, true);
+        g.getMemberByTag(name);
+        return g.getMemberByTag(name);
     }
 
     public static boolean hasRank(Player p) {
@@ -27,7 +28,7 @@ public class LDUtils {
     }
 
     public static boolean alreadyHasUpdatedRole(String name, String rank) {
-        Member member = getMember(name).get(0);
+        Member member = getMember(name);
         List<Role> hasRoles = member.getRoles();
         if (hasRoles.isEmpty()) {
             return false;
@@ -102,12 +103,11 @@ public class LDUtils {
             sender.sendMessage(ChatColor.RED + "Failed to find role!");
             return;
         }
-        List<Member> members = getMember(name);
-        if(members.isEmpty()) {
+        Member member = getMember(name);
+        if(member == null) {
             sender.sendMessage(ChatColor.RED + "Failed to find member!");
             return;
         }
-        Member member = members.get(0);
         Guild g = LDSync.jda.getGuildById(LDSync.getDiscordServerId());
         if (LDSync.getRemoveHigherRolesOnSync()) removeRoles(g, member, rolesThatHas(member, findHigherRoles(role)));
         g.addRoleToMember(member, role).queue();
