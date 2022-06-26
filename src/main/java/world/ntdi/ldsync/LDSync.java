@@ -1,5 +1,7 @@
 package world.ntdi.ldsync;
 
+import com.jeff_media.updatechecker.UpdateCheckSource;
+import com.jeff_media.updatechecker.UpdateChecker;
 import net.dv8tion.jda.api.JDA;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -26,6 +28,7 @@ public final class LDSync extends JavaPlugin {
     public static Permission permissions;
     public static Chat chat;
     public static JDA jda;
+    private static final String SPIGOT_RESOURCE_ID = ""+102933;
 
     public static Map<String, UUID> syncingList = new HashMap<>();
 
@@ -71,6 +74,16 @@ public final class LDSync extends JavaPlugin {
             e.printStackTrace();
         }
         registerListener(new ChatListener());
+
+        new UpdateChecker(this, UpdateCheckSource.SPIGOT, SPIGOT_RESOURCE_ID)
+                .setDownloadLink("https://www.spigotmc.org/resources/ldsync.102933/history") // You can either use a custom URL or the Spigot Resource ID
+                .setDonationLink("https://buymeacoffee.com/ntdi")
+                .setChangelogLink(SPIGOT_RESOURCE_ID) // Same as for the Download link: URL or Spigot Resource ID
+                .setNotifyOpsOnJoin(true) // Notify OPs on Join when a new version is found (default)
+                .checkEveryXHours(8)
+                .checkNow();
+
+        getLogger().info("LDSync has been enabled - by Ntdi");
     }
 
     public void registerCommand(String name, CommandExecutor executor, @Nullable TabCompleter tabCompleter) {

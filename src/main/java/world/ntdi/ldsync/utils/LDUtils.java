@@ -1,9 +1,7 @@
 package world.ntdi.ldsync.utils;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class LDUtils {
     public static List<Role> getRoles() {
@@ -127,22 +128,25 @@ public class LDUtils {
             Player p = op.getPlayer();
             if (!checks(p, member, LDSync.permissions.getPrimaryGroup(p))) {
 
-                Message response = message.getChannel().sendMessage("Unable to sync ranks, *Checks Failed!*").complete();
-                response.delete().queueAfter(5, TimeUnit.SECONDS);
+                message.getChannel().sendMessage("Unable to sync ranks, *Checks Failed!*")
+                        .delay(10, SECONDS) // delete 10 seconds later
+                        .flatMap(Message::delete);
                 return;
             }
 
             Role role = (findRoleFromName(LDSync.permissions.getPrimaryGroup(p)) != null) ? findRoleFromName(LDSync.permissions.getPrimaryGroup(p)) : createRoleFromName(LDSync.permissions.getPrimaryGroup(p));
             if(role == null) {
-                Message response = message.getChannel().sendMessage("Unable to sync ranks, *Failed to find role!*").complete();
-                response.delete().queueAfter(5, TimeUnit.SECONDS);
+                message.getChannel().sendMessage("Unable to sync ranks, *Failed to find role!*")
+                        .delay(10, SECONDS) // delete 10 seconds later
+                        .flatMap(Message::delete);
                 return;
             }
 
             if (LDSync.getRemoveHigherRolesOnSync()) removeRoles(g, member, rolesThatHas(member, findHigherRoles(role)));
             g.addRoleToMember(member, role).queue();
-            Message response = message.getChannel().sendMessage("Successfully synced!").complete();
-            response.delete().queueAfter(5, TimeUnit.SECONDS);
+            message.getChannel().sendMessage("Successfully synced!")
+                    .delay(10, SECONDS) // delete 10 seconds later
+                    .flatMap(Message::delete);
         }
     }
 
@@ -173,5 +177,11 @@ public class LDUtils {
         }
 
         return true;
+    }
+
+    public RestAction<Void> selfDestruct(MessageChannel channel, String content) {
+        return channel.sendMessage(content)
+                .delay(10, SECONDS) // delete 10 seconds later
+                .flatMap(Message::delete);
     }
 }
