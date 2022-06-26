@@ -76,7 +76,7 @@ public final class LDSync extends JavaPlugin {
         registerListener(new ChatListener());
 
         new UpdateChecker(this, UpdateCheckSource.SPIGOT, SPIGOT_RESOURCE_ID)
-                .setDownloadLink("https://www.spigotmc.org/resources/ldsync.102933/history") // You can either use a custom URL or the Spigot Resource ID
+                .setDownloadLink("https://www.spigotmc.org/resources/ldsync.102933/download?version=458222") // You can either use a custom URL or the Spigot Resource ID
                 .setDonationLink("https://buymeacoffee.com/ntdi")
                 .setChangelogLink(SPIGOT_RESOURCE_ID) // Same as for the Download link: URL or Spigot Resource ID
                 .setNotifyOpsOnJoin(true) // Notify OPs on Join when a new version is found (default)
