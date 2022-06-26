@@ -16,7 +16,7 @@ public class ChatListener implements Listener {
             String finalForm = unformatted
                     .replace("%rank%", LDSync.chat.getPlayerPrefix(p))
                     .replace("%player_name%", "%s")
-                    .replace("%message%", "%s");
+                    .replace("%msg%", "%s");
             e.setFormat(ChatColor.translateAlternateColorCodes('&', finalForm));
         }
     }

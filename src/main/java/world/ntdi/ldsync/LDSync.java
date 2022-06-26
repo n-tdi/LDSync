@@ -32,7 +32,7 @@ public final class LDSync extends JavaPlugin {
         config.addDefault("discord-server-id", "discord-server-id-here");
         config.addDefault("remove-higher-roles-on-sync", true);
         config.addDefault("custom-chat-format", true);
-        config.addDefault("custom-chat-format-string", "%rank% %player_name%: &f%message%");
+        config.addDefault("custom-chat-format-string", "%rank% %player_name%: &f%msg%");
         config.addDefault("logo", "&cLD&lSYNC&7");
         config.options().copyDefaults(true);
         saveConfig();
