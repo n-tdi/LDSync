@@ -7,13 +7,16 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.exceptions.RateLimitedException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.bukkit.Bukkit;
 import world.ntdi.ldsync.LDSync;
 import world.ntdi.ldsync.utils.LDUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 import static world.ntdi.ldsync.LDSync.removeFromList;
 
@@ -21,7 +24,7 @@ public class MessageListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event)
     {
-        JDA jda = event.getJDA();
+        Bukkit.getLogger().info("YuhYuh");
 
         User author = event.getAuthor();
         Message message = event.getMessage();
@@ -34,6 +37,7 @@ public class MessageListener extends ListenerAdapter {
 
 
         if (event.isFromType(ChannelType.TEXT)) {
+            Bukkit.getLogger().info("uhuh");
             Guild guild = event.getGuild();
             if (!guild.getId().equalsIgnoreCase(LDSync.getDiscordServerId())) return;
 
@@ -45,7 +49,8 @@ public class MessageListener extends ListenerAdapter {
             newArgs.remove(0);
             String[] args = newArgs.toArray(new String[0]);
 
-            if (command.equalsIgnoreCase("sync")) {
+            if (command.toLowerCase(Locale.ROOT).startsWith("sync")) {
+                Bukkit.getLogger().info("bumbum");
                 if (args.length < 1) {
                     message.reply("This command requires at least one argument.").queue();
                     return;
@@ -59,6 +64,8 @@ public class MessageListener extends ListenerAdapter {
 
                 LDUtils.syncFromDiscord(message, member, LDSync.syncingList.get(id), guild);
                 LDSync.removeFromList(id);
+                message.delete().queueAfter(10, TimeUnit.SECONDS);
+                Bukkit.getLogger().info("ezlesgo");
             }
         }
     }

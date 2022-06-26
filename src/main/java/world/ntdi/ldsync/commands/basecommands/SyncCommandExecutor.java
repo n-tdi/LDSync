@@ -31,6 +31,8 @@ public class SyncCommandExecutor implements CommandExecutor {
         p.spigot().sendMessage(syncCmd);
         p.sendMessage("");
 
+        LDSync.syncingList.put(id, p.getUniqueId());
+
         return true;
     }
 }
