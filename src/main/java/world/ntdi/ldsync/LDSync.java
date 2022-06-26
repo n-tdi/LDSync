@@ -6,10 +6,12 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import world.ntdi.ldsync.bot.BotThread;
 import world.ntdi.ldsync.commands.CommandManager;
+import world.ntdi.ldsync.listeners.ChatListener;
 
 import javax.annotation.Nullable;
 
@@ -29,6 +31,8 @@ public final class LDSync extends JavaPlugin {
         config.addDefault("bot-token", "token-here");
         config.addDefault("discord-server-id", "discord-server-id-here");
         config.addDefault("remove-higher-roles-on-sync", true);
+        config.addDefault("custom-chat-format", true);
+        config.addDefault("custom-chat-format-string", "%rank% %player_name%: &f%message%");
         config.addDefault("logo", "&cLD&lSYNC&7");
         config.options().copyDefaults(true);
         saveConfig();
@@ -58,6 +62,7 @@ public final class LDSync extends JavaPlugin {
             getLogger().severe("Something has gone horribly wrong registering ldsync commands");
             e.printStackTrace();
         }
+        registerListener(new ChatListener());
     }
 
     public void registerCommand(String name, CommandExecutor executor, @Nullable TabCompleter tabCompleter) {
@@ -65,6 +70,10 @@ public final class LDSync extends JavaPlugin {
         if(tabCompleter != null) {
             getCommand(name).setTabCompleter(tabCompleter);
         }
+    }
+
+    public void registerListener(Listener listener) {
+        getServer().getPluginManager().registerEvents(listener, this);
     }
 
     @Override
@@ -84,6 +93,12 @@ public final class LDSync extends JavaPlugin {
     }
     public static boolean getRemoveHigherRolesOnSync() {
         return ldSync.config.getBoolean("remove-higher-roles-on-sync");
+    }
+    public static boolean getCustomChatFormat() {
+        return ldSync.config.getBoolean("custom-chat-format");
+    }
+    public static String getCustomChatFormatString() {
+        return ldSync.config.getString("custom-chat-format-string");
     }
 
     public void restartThread() {
