@@ -24,14 +24,27 @@ public class MessageListener extends ListenerAdapter {
         MessageChannel channel = event.getChannel();
         String msg = message.getContentDisplay();
 
-        if (!msg.startsWith(LDSync.getBotPrefix())) return;
-
         if (author.isBot()) return;
-
+        Bukkit.getLogger().info("1");
 
         if (event.isFromType(ChannelType.TEXT)) {
+            Bukkit.getLogger().info("2");
             Guild guild = event.getGuild();
             if (!guild.getId().equalsIgnoreCase(LDSync.getDiscordServerId())) return;
+
+            if (LDSync.getMinecraftChatToDiscord()) {
+                Bukkit.getLogger().info("3");
+                if (channel.getId().equals(LDSync.getMinecraftChatToDiscordChannelId())) {
+                    Bukkit.getLogger().info("4");
+                    String username = author.getName();
+                    String messageContent = message.getContentRaw();
+
+                    LDUtils.sendToMinecraft(username, messageContent);
+                    return;
+                }
+            }
+
+            if (!msg.startsWith(LDSync.getBotPrefix())) return;
 
             TextChannel textChannel = event.getTextChannel();
             Member member = event.getMember();
@@ -56,6 +69,7 @@ public class MessageListener extends ListenerAdapter {
                 LDUtils.syncFromDiscord(message, member, LDSync.syncingList.get(id), guild);
                 LDSync.removeFromList(id);
                 message.delete().queueAfter(1, TimeUnit.SECONDS);
+                return;
             }
         }
     }

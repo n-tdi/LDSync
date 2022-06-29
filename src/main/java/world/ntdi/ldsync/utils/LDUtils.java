@@ -184,4 +184,21 @@ public class LDUtils {
                 .delay(10, SECONDS) // delete 10 seconds later
                 .flatMap(Message::delete);
     }
+
+    public static void sendToDiscord(Player p, String message) {
+        String prefix = LDSync.chat.getPlayerPrefix(p);
+        TextChannel channel = LDSync.jda.getTextChannelById(LDSync.getMinecraftChatToDiscordChannelId());
+
+        if (channel != null) {
+            channel.sendMessage("**" + prefix + p.getName() + ":** " + message).queue();
+        }
+    }
+
+    public static void sendToMinecraft(String author, String message) {
+        String format = LDSync.getDiscordToMinecraftChatFormat()
+                .replace("%username%", author)
+                .replace("%msg%", message);
+
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', format));
+    }
 }

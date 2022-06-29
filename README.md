@@ -16,6 +16,9 @@ bot-prefix: "$"
 remove-higher-roles-on-sync: true
 custom-chat-format: true
 custom-chat-format-string: "%rank% %player_name%: &f%msg%"
+minecraft-chat-to-discord: false
+minecraft-chat-to-discord-channel-id: "0000000000"
+discord-to-minecraft-chat-format: "&c&lDISCORD &7> &b%username%: &f%msg%"
 logo: "&cLD&bSYNC &7"
 ```
 
@@ -32,6 +35,12 @@ LDSync is very customizable by even changing the name or "logo" in chat.
 `custom-chat-format` This value is by default true and is used to format the chat to look pretty with customizable formatting. See below.
 
 `custom-chat-format-string` The format of the custom chat. Accepts color codes. Valid formatting variables are: `%rank%` `%player_name%` `%msg%`, none of these are required but recommended
+
+`minecraft-chat-to-discord` This value is by default false and is used to send the chat from minecraft to discord and vice versa.
+
+`minecraft-chat-to-discord-channel-id` This is the channel id of the channel you want to send the minecraft chat to and receive from.
+
+`discord-to-minecraft-chat-format` This is the message sent when a message is sent in the above discord channel, Supports color codes. Valid formatting variables are: `%username%` `%msg%`, none of these are required but recommended.
 
 `logo` Obviously, the logo that appears in chat. Change it to whatever you want! 
 

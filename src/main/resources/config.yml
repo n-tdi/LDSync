@@ -4,4 +4,7 @@ bot-prefix: "$"
 remove-higher-roles-on-sync: true
 custom-chat-format: true
 custom-chat-format-string: "%rank% %player_name%: &f%msg%"
+minecraft-chat-to-discord: false
+minecraft-chat-to-discord-channel-id: "0000000000"
+discord-to-minecraft-chat-format: "&c&lDISCORD &7> &b%username%: &f%msg%"
 logo: "&cLD&bSYNC &7"

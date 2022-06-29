@@ -43,6 +43,9 @@ public final class LDSync extends JavaPlugin {
         config.addDefault("remove-higher-roles-on-sync", true);
         config.addDefault("custom-chat-format", true);
         config.addDefault("custom-chat-format-string", "%rank% %player_name%: &f%msg%");
+        config.addDefault("minecraft-chat-to-discord", false);
+        config.addDefault("minecraft-chat-to-discord-channel-id", "0000000000");
+        config.addDefault("discord-to-minecraft-chat-format", "&c&lDISCORD &7> &b%username%: &f%msg%");
         config.addDefault("logo", "&cLD&lSYNC&7");
         config.options().copyDefaults(true);
         saveConfig();
@@ -124,6 +127,18 @@ public final class LDSync extends JavaPlugin {
 
     public static String getBotPrefix() {
         return ldSync.config.getString("bot-prefix");
+    }
+
+    public static boolean getMinecraftChatToDiscord() {
+        return ldSync.config.getBoolean("minecraft-chat-to-discord");
+    }
+
+    public static String getMinecraftChatToDiscordChannelId() {
+        return ldSync.config.getString("minecraft-chat-to-discord-channel-id");
+    }
+
+    public static String getDiscordToMinecraftChatFormat() {
+        return ldSync.config.getString("discord-to-minecraft-chat-format");
     }
 
     public void restartThread() {
