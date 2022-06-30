@@ -25,6 +25,11 @@ public class HelpSubcommand extends SubCommand {
     }
 
     @Override
+    public double getCooldown() {
+        return 0;
+    }
+
+    @Override
     public void perform(CommandSender sender, String[] args) {
         TextComponent link = new TextComponent(ChatColor.RED + "Click " + ChatColor.BOLD + "HERE " + ChatColor.RED + "to open the help readme on github");
         link.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/professional-tdi/LDSync/blob/main/README.md"));

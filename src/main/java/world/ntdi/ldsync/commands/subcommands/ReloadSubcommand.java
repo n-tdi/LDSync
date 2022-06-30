@@ -23,6 +23,11 @@ public class ReloadSubcommand extends SubCommand {
     }
 
     @Override
+    public double getCooldown() {
+        return 0;
+    }
+
+    @Override
     public void perform(CommandSender sender, String[] args) {
         sender.sendMessage(StringUtils.formatMessage("%logo% Reloading config.yml"));
         LDSync.getInstance().rConfig();

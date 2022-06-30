@@ -5,30 +5,44 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import world.ntdi.ldsync.commands.subcommands.HelpSubcommand;
 import world.ntdi.ldsync.commands.subcommands.ReloadSubcommand;
 import world.ntdi.ldsync.commands.subcommands.SyncSubcommand;
 import world.ntdi.ldsync.LDSync;
+import world.ntdi.ldsync.utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class CommandManager implements CommandExecutor, TabCompleter {
     private final ArrayList<SubCommand> SUBCOMMANDS = new ArrayList<>(Arrays.asList(new ReloadSubcommand(), new SyncSubcommand(), new HelpSubcommand()));
+    private static final Map<UUID, Long> COOLDOWNS = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0){
             for (int i = 0; i < getSubcommands().size(); i++){
                 if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())){
+                    if (sender instanceof Player p) {
+                        double cooldownTime = getSubcommands().get(i).getCooldown() * 1000;
+                        UUID uuid = p.getUniqueId();
+                        if(COOLDOWNS.containsKey(uuid)) {
+                            double secondsLeft = COOLDOWNS.get(uuid) + cooldownTime - System.currentTimeMillis();
+                            if(secondsLeft>0) {
+                                p.sendMessage(StringUtils.formatMessage("%logo% &cYou must wait " + (int) (secondsLeft/1000) + " seconds before using this command again."));
+                                COOLDOWNS.put(uuid, System.currentTimeMillis());
+                                return true;
+                            }
+                        }
+                        COOLDOWNS.put(uuid, System.currentTimeMillis());
+                    }
                     ArrayList<String> newArgs = new ArrayList<>(Arrays.asList(args));
                     newArgs.remove(0);
                     String[] newArgsArray = newArgs.toArray(new String[0]);
                     getSubcommands().get(i).perform(sender, newArgsArray);
+                    break;
                 }
             }
         }else {
@@ -47,6 +61,10 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     }
 
     public ArrayList<SubCommand> getSubcommands(){ return SUBCOMMANDS; }
+
+    public static void removeFromCooldown(UUID uuid) {
+        COOLDOWNS.remove(uuid);
+    }
 
     @Nullable
     @Override

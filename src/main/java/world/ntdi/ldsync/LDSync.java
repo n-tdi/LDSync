@@ -29,7 +29,6 @@ public final class LDSync extends JavaPlugin {
     public static Chat chat;
     public static JDA jda;
     private static final String SPIGOT_RESOURCE_ID = ""+102933;
-
     public static Map<String, UUID> syncingList = new HashMap<>();
 
     @Override

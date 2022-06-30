@@ -26,6 +26,11 @@ public class SyncSubcommand extends SubCommand {
     }
 
     @Override
+    public double getCooldown() {
+        return 0;
+    }
+
+    @Override
     public void perform(CommandSender sender, String[] args) {
         if (args.length == 2) {
             String player = args[0];
@@ -50,7 +55,7 @@ public class SyncSubcommand extends SubCommand {
             sender.sendMessage(StringUtils.formatMessage("%logo% Syncing " + player + " to " + discord));
             LDUtils.Sync(sender, p, discord, LDSync.permissions.getPrimaryGroup(p));
         } else {
-            sender.sendMessage(StringUtils.formatMessage("%logo% Invalid syntax. Use /ldsync sync <player> <discord name>"));
+            incorrectSyntax(sender);
         }
     }
 }
