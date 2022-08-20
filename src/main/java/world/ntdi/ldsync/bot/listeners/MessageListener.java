@@ -25,17 +25,13 @@ public class MessageListener extends ListenerAdapter {
         String msg = message.getContentDisplay();
 
         if (author.isBot()) return;
-        Bukkit.getLogger().info("1");
 
         if (event.isFromType(ChannelType.TEXT)) {
-            Bukkit.getLogger().info("2");
             Guild guild = event.getGuild();
             if (!guild.getId().equalsIgnoreCase(LDSync.getDiscordServerId())) return;
 
             if (LDSync.getMinecraftChatToDiscord()) {
-                Bukkit.getLogger().info("3");
                 if (channel.getId().equals(LDSync.getMinecraftChatToDiscordChannelId())) {
-                    Bukkit.getLogger().info("4");
                     String username = author.getName();
                     String messageContent = message.getContentRaw();
 
