@@ -23,7 +23,7 @@ public class DiscordBot {
         builder.setPrefix("!");
         builder.useHelpBuilder(false);
 
-        builder.setActivity(Activity.playing("minecraft"));
+        builder.setActivity(Activity.playing(LDSync.getStatus()));
         CommandClient commandClient = builder.build();
 
         JDA jda = JDABuilder.createDefault(LDSync.getBotToken())
