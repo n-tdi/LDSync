@@ -46,6 +46,7 @@ public final class LDSync extends JavaPlugin {
         config.addDefault("minecraft-chat-to-discord-channel-id", "0000000000");
         config.addDefault("discord-to-minecraft-chat-format", "&c&lDISCORD &7> &b%username%: &f%msg%");
         config.addDefault("logo", "&cLD&lSYNC&7");
+        config.addDefault("status", "minecraft");
         config.options().copyDefaults(true);
         saveConfig();
 
@@ -101,43 +102,51 @@ public final class LDSync extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        try {
+            jda.shutdownNow();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String getBotToken() {
-        return ldSync.config.getString("bot-token");
+        return config.getString("bot-token");
     }
 
     public static String getDiscordServerId() {
-        return ldSync.config.getString("discord-server-id");
+        return config.getString("discord-server-id");
     }
     public static String getLogo() {
-        return ldSync.config.getString("logo");
+        return config.getString("logo");
     }
     public static boolean getRemoveHigherRolesOnSync() {
-        return ldSync.config.getBoolean("remove-higher-roles-on-sync");
+        return config.getBoolean("remove-higher-roles-on-sync");
     }
     public static boolean getCustomChatFormat() {
-        return ldSync.config.getBoolean("custom-chat-format");
+        return config.getBoolean("custom-chat-format");
     }
     public static String getCustomChatFormatString() {
-        return ldSync.config.getString("custom-chat-format-string");
+        return config.getString("custom-chat-format-string");
     }
 
     public static String getBotPrefix() {
-        return ldSync.config.getString("bot-prefix");
+        return config.getString("bot-prefix");
     }
 
     public static boolean getMinecraftChatToDiscord() {
-        return ldSync.config.getBoolean("minecraft-chat-to-discord");
+        return config.getBoolean("minecraft-chat-to-discord");
     }
 
     public static String getMinecraftChatToDiscordChannelId() {
-        return ldSync.config.getString("minecraft-chat-to-discord-channel-id");
+        return config.getString("minecraft-chat-to-discord-channel-id");
     }
 
     public static String getDiscordToMinecraftChatFormat() {
-        return ldSync.config.getString("discord-to-minecraft-chat-format");
+        return config.getString("discord-to-minecraft-chat-format");
+    }
+    
+    public static String getStatus() {
+        return config.getString("status");
     }
 
     public void restartThread() {

@@ -20,6 +20,7 @@ minecraft-chat-to-discord: false
 minecraft-chat-to-discord-channel-id: "0000000000"
 discord-to-minecraft-chat-format: "&c&lDISCORD &7> &b%username%: &f%msg%"
 logo: "&cLD&bSYNC &7"
+status: "minecraft"
 ```
 
 LDSync is very customizable by even changing the name or "logo" in chat.
@@ -43,6 +44,8 @@ LDSync is very customizable by even changing the name or "logo" in chat.
 `discord-to-minecraft-chat-format` This is the message sent when a message is sent in the above discord channel, Supports color codes. Valid formatting variables are: `%username%` `%msg%`, none of these are required but recommended.
 
 `logo` Obviously, the logo that appears in chat. Change it to whatever you want! 
+
+`status` The status that is displayed under the bot's username. E.g. `playing minecraft`
 
 ### Permissions
 The base command is `/ldsync` which requires the premission node `ldsync.use`
