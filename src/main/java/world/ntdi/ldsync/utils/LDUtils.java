@@ -1,5 +1,6 @@
 package world.ntdi.ldsync.utils;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
@@ -186,11 +187,18 @@ public class LDUtils {
     }
 
     public static void sendToDiscord(Player p, String message) {
-        String prefix = LDSync.chat.getPlayerPrefix(p);
+        if (!LDSync.getDiscordChat()) return;
+        String dFormat = LDSync.getDiscordChatFormatString()
+                .replace("%prefix%", ChatColor.stripColor(LDSync.chat.getPlayerPrefix(p)))
+                .replace("%player_name%", p.getName())
+                .replace("%msg%", message);
+
         TextChannel channel = LDSync.jda.getTextChannelById(LDSync.getMinecraftChatToDiscordChannelId());
 
+        dFormat = (LDSync.placeHolderApiUsed) ? PlaceholderAPI.setPlaceholders(p, dFormat) : dFormat;
+
         if (channel != null) {
-            channel.sendMessage("**" + prefix + p.getName() + ":** " + message).queue();
+            channel.sendMessage(dFormat).queue();
         }
     }
 

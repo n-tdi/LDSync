@@ -10,15 +10,17 @@ Note: LDSync is tested for 1.17.x but may work on other verisons.
 
 ### Config.yml
 ```yaml
-bot-token: "token-here"
-discord-server-id: "discord-server-id-here"
+bot-token: "token here"
+discord-server-id: "989979832739835914"
 bot-prefix: "$"
 remove-higher-roles-on-sync: true
 custom-chat-format: true
-custom-chat-format-string: "%rank% %player_name%: &f%msg%"
+custom-chat-format-string: "%prefix% %player_name%: &f%msg%"
 minecraft-chat-to-discord: false
 minecraft-chat-to-discord-channel-id: "0000000000"
 discord-to-minecraft-chat-format: "&c&lDISCORD &7> &b%username%: &f%msg%"
+discord-chat: true
+discord-chat-format-string: "**%prefix% %player_name%** %msg%"
 logo: "&cLD&bSYNC &7"
 status: "minecraft"
 ```
@@ -35,13 +37,17 @@ LDSync is very customizable by even changing the name or "logo" in chat.
 
 `custom-chat-format` This value is by default true and is used to format the chat to look pretty with customizable formatting. See below.
 
-`custom-chat-format-string` The format of the custom chat. Accepts color codes. Valid formatting variables are: `%rank%` `%player_name%` `%msg%`, none of these are required but recommended
+`custom-chat-format-string` The format of the custom chat. Accepts color codes. Valid formatting variables are: `%prefix%` `%player_name%` `%msg%`, none of these are required but recommended. Also supports PlaceholderAPI
 
 `minecraft-chat-to-discord` This value is by default false and is used to send the chat from minecraft to discord and vice versa.
 
 `minecraft-chat-to-discord-channel-id` This is the channel id of the channel you want to send the minecraft chat to and receive from.
 
 `discord-to-minecraft-chat-format` This is the message sent when a message is sent in the above discord channel, Supports color codes. Valid formatting variables are: `%username%` `%msg%`, none of these are required but recommended.
+
+`discord-chat` If you want to enable the bot sending messages to discord from minecraft. By default `true`
+
+`discord-chat-format-string` The string used to format the discord message. Valid formatting variables are: `%prefix%` `%player_name%` `%msg%`, none of these are required but recommended. Also supports PlaceholderAPI
 
 `logo` Obviously, the logo that appears in chat. Change it to whatever you want! 
 
@@ -62,6 +68,9 @@ Syncing players is done with `/ldsync sync <minecraft-player> <discord-username>
 *Discord names are CaSe-SeNsItIvE*
 
 Players by default can sync themselves with `/sync` This will give them a command to copy and run in your discord, e.g. `$sync 1234` and then they will sync by themselves.
+
+### SoftDepends
+This plugin supports the use of [PlaceholderApi](https://github.com/PlaceholderAPI/PlaceholderAPI)
 
 ### Support
 If you still need help feel free to create an issue on this github page.

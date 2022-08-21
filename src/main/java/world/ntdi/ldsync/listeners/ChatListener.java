@@ -1,5 +1,6 @@
 package world.ntdi.ldsync.listeners;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,8 +17,11 @@ public class ChatListener implements Listener {
             String unformatted = LDSync.getCustomChatFormatString();
             String finalForm = unformatted
                     .replace("%rank%", LDSync.chat.getPlayerPrefix(p))
+                    .replace("%prefix%", LDSync.chat.getPlayerPrefix(p))
                     .replace("%player_name%", "%s")
                     .replace("%msg%", "%s");
+            finalForm = (LDSync.placeHolderApiUsed) ? PlaceholderAPI.setPlaceholders(p, finalForm) : finalForm;
+
             e.setFormat(ChatColor.translateAlternateColorCodes('&', finalForm));
         }
         if (LDSync.getMinecraftChatToDiscord()) {

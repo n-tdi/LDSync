@@ -8,6 +8,7 @@ authors: [ Ntdi ]
 description: Sync Vault groups to discord
 website: ntdi.world
 depend: [ Vault ]
+softdepend: [ PlaceholderAPI ]
 commands:
   ldsync:
     description: Sync Vault groups to discord

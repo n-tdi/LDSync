@@ -2,6 +2,7 @@ package world.ntdi.ldsync;
 
 import com.jeff_media.updatechecker.UpdateCheckSource;
 import com.jeff_media.updatechecker.UpdateChecker;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dv8tion.jda.api.JDA;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
@@ -30,6 +31,7 @@ public final class LDSync extends JavaPlugin {
     public static JDA jda;
     private static final String SPIGOT_RESOURCE_ID = ""+102933;
     public static Map<String, UUID> syncingList = new HashMap<>();
+    public static Boolean placeHolderApiUsed;
 
     @Override
     public void onEnable() {
@@ -41,10 +43,12 @@ public final class LDSync extends JavaPlugin {
         config.addDefault("bot-prefix", "$");
         config.addDefault("remove-higher-roles-on-sync", true);
         config.addDefault("custom-chat-format", true);
-        config.addDefault("custom-chat-format-string", "%rank% %player_name%: &f%msg%");
+        config.addDefault("custom-chat-format-string", "%prefix% %player_name%: &f%msg%");
         config.addDefault("minecraft-chat-to-discord", false);
         config.addDefault("minecraft-chat-to-discord-channel-id", "0000000000");
         config.addDefault("discord-to-minecraft-chat-format", "&c&lDISCORD &7> &b%username%: &f%msg%");
+        config.addDefault("discord-chat", true);
+        config.addDefault("discord-chat-format-string", "**%prefix% %player_name%** %msg%");
         config.addDefault("logo", "&cLD&lSYNC&7");
         config.addDefault("status", "minecraft");
         config.options().copyDefaults(true);
@@ -64,6 +68,8 @@ public final class LDSync extends JavaPlugin {
         } else {
             getLogger().severe("Vault not found!");
         }
+
+        placeHolderApiUsed = getServer().getPluginManager().getPlugin("PlaceholderApi") != null;
 
         BotThread thread = new BotThread();
         botThread = thread;
@@ -147,6 +153,14 @@ public final class LDSync extends JavaPlugin {
     
     public static String getStatus() {
         return config.getString("status");
+    }
+
+    public static Boolean getDiscordChat() {
+        return config.getBoolean("discord-chat");
+    }
+
+    public static String getDiscordChatFormatString() {
+        return config.getString("discord-chat-format-string");
     }
 
     public void restartThread() {
